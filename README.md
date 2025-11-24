@@ -4,7 +4,7 @@ A command-line utility for automating Steam client authentication.
 
 ## SYNOPSIS
 
-    steam-login --steam <PATH> --js <PATH> --username <USER> --password <PASS> (--captcha <CODE> | --shared_secret <SECRET>)
+    steam-login --steam <PATH> [--js <PATH>] --username <USER> --password <PASS> (--captcha <CODE> | --shared_secret <SECRET>)
 
 ## DESCRIPTION
 
@@ -17,8 +17,8 @@ This tool is designed for headless environments or automated gaming setups where
 *   `--steam <PATH>`
     Absolute path to the Steam executable (e.g., `C:\Program Files (x86)\Steam\steam.exe` or `/usr/bin/steam`).
 
-*   `--js <PATH>`
-    Path to the automation script (provided in `javascript/steam-login.js`).
+*   `--js <PATH>` (optional)
+    Path to a custom automation script. If not provided, uses the embedded default script.
 
 *   `--username <STRING>`
     Steam account username.
@@ -38,7 +38,6 @@ This tool is designed for headless environments or automated gaming setups where
 
     $ steam-login \
         --steam "C:\Program Files (x86)\Steam\steam.exe" \
-        --js javascript/steam-login.js \
         --username myuser \
         --password mypass \
         --captcha AB123
@@ -47,10 +46,18 @@ This tool is designed for headless environments or automated gaming setups where
 
     $ steam-login \
         --steam /usr/bin/steam \
-        --js javascript/steam-login.js \
         --username myuser \
         --password mypass \
         --shared_secret "U29tZVJhbmRvbVNlY3JldA=="
+
+**Login with a custom JavaScript automation script:**
+
+    $ steam-login \
+        --steam /usr/bin/steam \
+        --js custom-script.js \
+        --username myuser \
+        --password mypass \
+        --captcha AB123
 
 ## BUILDING
 
