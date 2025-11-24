@@ -7,16 +7,18 @@ use tokio_tungstenite::connect_async;
 
 pub async fn evaluate(
     port: u16,
-    js: &str,
+    js: Option<&str>,
     username: &str,
     password: &str,
     captcha: &str,
 ) -> Result<Value, Box<dyn std::error::Error>> {
-    let js = fs::read_to_string(js)
-        .await?
-        .replace("{%username%}", username)
-        .replace("{%password%}", password)
-        .replace("{%captcha%}", captcha);
+    let js = match js {
+        Some(path) => fs::read_to_string(path).await?,
+        None => include_str!("../javascript/steam-login.js").to_string(),
+    }
+    .replace("{%username%}", username)
+    .replace("{%password%}", password)
+    .replace("{%captcha%}", captcha);
 
     let url = format!("http://127.0.0.1:{port}/json");
 

@@ -96,7 +96,6 @@ jobs:
         run: |
           mkdir release
           find artifacts -type f -exec mv {} release/ \;
-          cp javascript/*.js release/
           ls -lah release/
       
       - name: Create Release

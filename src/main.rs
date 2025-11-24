@@ -24,7 +24,7 @@ struct Args {
 
     /// Path to a javascript file
     #[arg(long)]
-    js: String,
+    js: Option<String>,
 
     /// Steam account name
     #[arg(long)]
@@ -54,8 +54,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         _ => unreachable!("clap already guarantees exactly one"),
     };
 
-    let result =
-        debugger::evaluate(port, &args.js, &args.username, &args.password, &guard_code).await?;
+    let result = debugger::evaluate(
+        port,
+        args.js.as_deref(),
+        &args.username,
+        &args.password,
+        &guard_code,
+    )
+    .await?;
     println!("result: {:?}", result);
     Ok(())
 }
