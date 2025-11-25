@@ -15,6 +15,7 @@ async fn get_free_port() -> Result<u16, Box<dyn std::error::Error>> {
 }
 
 pub async fn start(steam: &str) -> Result<u16, Box<dyn std::error::Error>> {
+    println!("[DEBUG] Starting Steam from: {}", steam);
     let steam_path = Path::new(&steam);
     if !steam_path.exists() || !steam_path.is_file() {
         return Err(format!("Steam executable not found or not a file at '{}'", steam).into());
@@ -22,6 +23,7 @@ pub async fn start(steam: &str) -> Result<u16, Box<dyn std::error::Error>> {
 
     let mut cmd = Command::new(steam);
     let port = get_free_port().await?;
+    println!("[DEBUG] Using debug port: {}", port);
     cmd.args(["-cef-enable-debugging", "-devtools-port", &port.to_string()]);
 
     #[cfg(windows)]
@@ -50,6 +52,7 @@ pub async fn start(steam: &str) -> Result<u16, Box<dyn std::error::Error>> {
     }
 
     cmd.spawn()?;
+    println!("[DEBUG] Steam process spawned successfully");
 
     Ok(port)
 }
