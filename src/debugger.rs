@@ -23,7 +23,7 @@ pub async fn evaluate(
     let url = format!("http://127.0.0.1:{port}/json");
     println!("[DEBUG] Waiting for Steam debugger at: {}", url);
 
-    let ws_url: String = timeout(Duration::from_secs(180), async {
+    let ws_url: String = timeout(Duration::from_secs(600), async {
         loop {
             if let Ok(resp) = reqwest::get(&url).await {
                 if let Ok(val) = resp.json::<Value>().await {
